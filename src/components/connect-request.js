@@ -1,3 +1,4 @@
+import {InteractionManager} from 'react-native';
 import difference from 'lodash.difference';
 import includes from 'lodash.includes';
 import intersection from 'lodash.intersection';
@@ -47,7 +48,10 @@ const connectRequest = (mapPropsToConfigs, options = {}) => WrappedComponent => 
 
     componentDidMount() {
       const configs = mapPropsToConfigs(this.props);
-      this.requestAsync(configs, false, true);
+      
+      InteractionManager.runAfterInteractions(() => {
+        this.requestAsync(configs, false, true);
+      });
     }
 
     componentDidUpdate(prevProps) {
